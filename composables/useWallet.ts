@@ -49,11 +49,7 @@ export function useWallet() {
     }
   };
 
-  const setAccount = (data: {
-    account: string | null;
-    publicKey: string | null;
-    connectedSites: any[];
-  }) => {
+  const setAccount = (data: { account: string | null; publicKey: string | null; connectedSites: any[] }) => {
     account.value = data.account;
     publicKey.value = data.publicKey;
     connectedSites.value = data.connectedSites;
@@ -102,10 +98,7 @@ export function useWallet() {
     if (account.value) {
       // Exercise 1 starts here
       // Use the Kadena Client to get the balance
-      const client = getClient(
-        ({ chainId }) =>
-          `http://127.0.0.1:8080/chainweb/0.0/fast-development/chain/${chainId}/pact`
-      );
+      const client = getClient(({ chainId }) => `http://127.0.0.1:8080/chainweb/0.0/fast-development/chain/${chainId}/pact`);
       const transaction = Pact.builder
         .execution(Pact.modules.coin["get-balance"](account.value))
         .setMeta({ sender: account.value, chainId: chain.value })
@@ -115,9 +108,7 @@ export function useWallet() {
       const { result } = await client.dirtyRead(transaction);
 
       if (result.status === "failure") {
-        throw new Error(
-          `Can't get balance. Account (${account.value}) not found on network: ${networkId.value} and chain: ${chain.value}`
-        );
+        throw new Error(`Can't get balance. Account (${account.value}) not found on network: ${networkId.value} and chain: ${chain.value}`);
       }
 
       balance.value = result.data as string;
