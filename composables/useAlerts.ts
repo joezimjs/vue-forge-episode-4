@@ -1,45 +1,63 @@
-import { nanoid } from "nanoid";
+import { nanoid } from 'nanoid'
 
 interface AlertOptions {
-  type?: "success" | "error" | "info" | "warning";
-  title?: string;
-  dismissiable?: boolean;
-  timeout?: number;
+	type?: 'success' | 'error' | 'info' | 'warning'
+	title?: string
+	dismissiable?: boolean
+	timeout?: number
 }
+
 interface Alert extends AlertOptions {
-  message: string;
-  id: string;
+	message: string
+	id: string
 }
+
+const alerts = ref<Alert[]>([])
 
 export const useAlerts = () => {
-  const alerts: Alert[] = [];
+	function alert(message: string, options: AlertOptions) {
+		const alert = {
+			id: nanoid(),
+			message,
+			timeout: 5000,
+			dismissiable: true,
+			...options
+		}
 
-  function dismiss(idOrAlert: string | Alert) {
-    console.log("dismissing");
-  }
+		alerts.value.push(alert)
 
-  function success(message: string, options: AlertOptions = {}) {
-    window.alert("SUCCESS: " + message);
-  }
+		if (alert.timeout) {
+			setTimeout(() => dismiss(alert), alert.timeout)
+		}
+	}
 
-  function error(message: string, options: AlertOptions = {}) {
-    window.alert("ERROR: " + message);
-  }
+	function dismiss(idOrAlert: string | Alert) {
+		const id = typeof idOrAlert === 'string' ? idOrAlert : idOrAlert.id
+		alerts.value = alerts.value.filter((alert) => alert.id !== id)
+	}
 
-  function info(message: string, options: AlertOptions = {}) {
-    window.alert("INFO: " + message);
-  }
+	function success(message: string, options: AlertOptions = {}) {
+		alert(message, { ...options, type: 'success' })
+	}
 
-  function warning(message: string, options: AlertOptions = {}) {
-    window.alert("WARNING: " + message);
-  }
+	function error(message: string, options: AlertOptions = {}) {
+		alert(message, { ...options, type: 'error' })
+	}
 
-  return {
-    success,
-    info,
-    warning,
-    error,
-    alerts,
-    dismiss,
-  };
-};
+	function info(message: string, options: AlertOptions = {}) {
+		alert(message, { ...options, type: 'info' })
+	}
+
+	function warning(message: string, options: AlertOptions = {}) {
+		alert(message, { ...options, type: 'warning' })
+	}
+
+	return {
+		success,
+		info,
+		warning,
+		error,
+		alerts,
+		dismiss
+	}
+}
