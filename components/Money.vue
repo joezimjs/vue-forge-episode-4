@@ -26,16 +26,18 @@ const localeOptions = computed(() => {
 });
 
 const locale = computed(() => "en-EN");
-const sign = ref("");
 const currencySign = ref(props.sign || null);
 const amount = computed(() => {
   let amount = Number(props.amount || 0);
 
   if (props.short) {
-    const a = amount / 100;
+    if (amount < 1000) {
+      return amount;
+    }
+    const a = amount / 1000;
     currencySign.value = props.sign || "$";
-    sign.value = amount > 1000 ? (amount > 1000000 ? "m" : "k") : "";
-    return `${a.toFixed(0)}`;
+    const sign = a > 1000 ? "M" : "K";
+    return `${a.toFixed(0)}${sign}`;
   }
 
   return amount.toLocaleString(locale.value, localeOptions.value);
@@ -46,9 +48,12 @@ const convertedAmount = computed(() => {
   let amount = Number(asUsd.value || 0);
 
   if (props.short) {
-    const a = amount / 100;
-    sign.value = amount > 1000 ? (amount > 1000000 ? "m" : "k") : "";
-    return `${a.toFixed(0)}`;
+    if (amount < 1000) {
+      return amount;
+    }
+    const a = amount / 1000;
+    const sign = a > 1000 ? "M" : "K";
+    return `${a.toFixed(0)}${sign}`;
   }
   return amount.toLocaleString(locale.value, localeOptions.value);
 });
@@ -56,19 +61,13 @@ const convertedAmount = computed(() => {
 
 <template>
   <span class="cursor-pointer group">
-    <span
-      v-if="currencySign"
-      class="text-xs mr-0.5 group-hover:hidden inline transition-all duration-200 w-8"
-    >
+    <span v-if="currencySign" class="text-xs mr-0.5 group-hover:hidden inline transition-all duration-200 w-8">
       {{ currencySign }}
     </span>
     <span class="inline transition-all duration-200 group-hover:hidden">
       {{ amount }}
     </span>
-    <span
-      class="text-xs mr-0.5 group-hover:inline hidden transition-all duration-200 w-8"
-      >$USD</span
-    >
+    <span class="text-xs mr-0.5 group-hover:inline hidden transition-all duration-200 w-8">$USD</span>
     <span class="hidden transition-all duration-200 group-hover:inline">
       {{ convertedAmount }}
     </span>

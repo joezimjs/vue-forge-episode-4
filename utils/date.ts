@@ -14,9 +14,15 @@ export function getExactStartTimeFromDateField(startsAt: string) {
   const selectedDate = new Date(`${startsAt} 00:00:00`);
   const isToday = selectedDate.getDate() === new Date().getDate();
 
-  return isToday
-    ? new Date(
-        new Date().setMinutes(new Date().getMinutes() + 20)
-      ).toISOString()
-    : new Date(startsAt).toISOString();
+  return isToday ? new Date(new Date().setMinutes(new Date().getMinutes() + 20)).toISOString() : new Date(startsAt).toISOString();
+}
+
+export function getStartOfToday() {
+  const today = new Date();
+  today.setHours(0);
+  today.setMinutes(0);
+  today.setSeconds(0);
+  today.setMilliseconds(0);
+
+  return today;
 }
