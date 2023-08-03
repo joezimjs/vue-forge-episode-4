@@ -21,8 +21,7 @@ export const useAlerts = () => {
     };
     alerts.value.push({ id, ...defaults, message, ...options });
 
-    let timeout =
-      options.timeout === undefined ? defaults.timeout : options.timeout;
+    let timeout = options.timeout === undefined ? defaults.timeout : options.timeout;
     if (timeout) {
       setTimeout(() => dismiss(id), timeout);
     }
