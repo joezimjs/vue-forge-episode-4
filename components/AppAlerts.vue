@@ -2,31 +2,15 @@
 const { alerts, success, error, warning, info, dismiss } = useAlerts();
 </script>
 <template>
-  <div
-    class="fixed bottom-0 z-10 w-full p-2 right-2 sm:p-0 sm:w-auto sm:bottom-5"
-  >
+  <div class="fixed bottom-0 z-10 w-full p-2 right-2 sm:p-0 sm:w-96 sm:bottom-5">
     <TransitionGroup name="list" tag="ul">
-      <div
-        v-for="alert in alerts"
-        :key="alert.id"
-        class="mb-4 border-t-[1px] shadow-sm alert !pr-0"
-        :class="`border-t-${alert.type}`"
-      >
-        <div class="flex justify-between sm:w-80">
-          <div class="flex items-center">
-            <div class="mx-4">
-              <div class="font-bold" v-if="alert.title">{{ alert.title }}</div>
-              <div class="">{{ alert.message }}</div>
-            </div>
-          </div>
-          <button
-            v-if="alert.dismissiable"
-            @click="dismiss(alert)"
-            class="p-1 transition rounded hover:bg-white"
-          >
-            x
-          </button>
+      <div v-for="alert in alerts" :key="alert.id" class="mb-4 shadow-xl alert" :class="'alert-' + alert.type">
+        <span data-icon></span>
+        <div>
+          <h6 class="font-bold">{{ alert.title }}</h6>
+          <p>{{ alert.message }}</p>
         </div>
+        <button v-if="alert.dismissiable" @click="dismiss(alert)" class="p-1 font-bold transition rounded-full hover:bg-white h-8 w-8">&times;</button>
       </div>
     </TransitionGroup>
   </div>
