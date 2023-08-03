@@ -1,6 +1,6 @@
 # How to Get Started
 
-1. Ensure you have [docker installed](https://docs.docker.com/get-docker/) and running
+1. Ensure you have [docker installed](https://docs.docker.com/get-docker/) and running. Supabase's local dev server and the local dev Kadena "Devnet" automatically create Docker containers and run those.
 2. Clone the repo or [![Run with VS Code](https://badgen.net/badge/Run%20with%20/VS%20Code/5B3ADF?icon=https://runme.dev/img/logo.svg)](https://runme.dev/api/runme?repository=https%3A%2F%2Fgithub.com%2Fvueschool%2Fforge-4-poc.git&fileToOpen=README.md)
 
 ```sh
@@ -65,3 +65,5 @@ npm run dev
 9. [Follow these directions in the Devnet Setup Guide](https://vueschool.notion.site/DevNet-Setup-2ee973bf5061497d998823dd5cf43e6b?pvs=4) to get a local development blockchain network running.
 
 10. That's it! 🎉 You're ready to go.
+
+The rest of the conference info and exercises can be found [here](https://vueschool.notion.site/Vue-js-Forge-4-2024-Exercises-e2b3c20c2fa24cdf8ba691ce41db5558).
